@@ -1,0 +1,90 @@
+# -*- coding: utf-8; mode: shell-script; sh-shell: zsh; -*-
+# Prevent freezing output on ^s, needed for various isearches
+stty -ixon
+
+zstyle :compinstall filename "$ZDOTDIR/.zshrc"
+
+autoload -Uz compinit
+compinit
+
+zstyle ':completion:*:descriptions' format '%U%B%d%b%u'
+setopt completealiases
+zstyle ':completion:*' menu select
+zstyle ':completion:*:*:kill:*' menu yes select
+zstyle ':completion:*:*:kill:*:processes' list-colors '=(#b) #([0-9]#)*=0=01;31'
+zstyle ':completion:*:*:kill:*:processes' command 'ps xo pid,user:10,cmd | grep -v "sshd:|-zsh$"'
+eval $(dircolors)
+zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
+
+zmodload zsh/complist
+
+_comp_options+=(globdots)		# Include hidden files.
+
+git_prompt() {
+  temp=$(git symbolic-ref HEAD 2>/dev/null | cut -d / -f 3)
+  [ "$temp" != "" ] && echo "%F{magenta}$temp"
+}
+
+guix_env_prompt() {
+    if [ -n "$GUIX_ENVIRONMENT" ]; then
+        echo "%F{red}[guix env] "
+    else
+        echo ""
+    fi
+}
+
+setopt prompt_subst
+export PROMPT='%F{green}%n %F{blue}%~%b%f $(guix_env_prompt)'
+export RPROMPT='$(git_prompt)'
+
+if [ $TERM = tramp ]; then
+        unset RPROMPT
+        unset RPS1
+        PS1="$ "
+        unsetopt zle
+        unsetopt rcs  # Inhibit loading of further config files
+fi
+
+setopt autocd
+
+setopt extended_glob
+
+setopt EXTENDED_HISTORY
+setopt HIST_EXPIRE_DUPS_FIRST
+setopt HIST_IGNORE_DUPS
+setopt HIST_IGNORE_ALL_DUPS
+setopt HIST_IGNORE_SPACE
+setopt HIST_FIND_NO_DUPS
+setopt HIST_BEEP
+
+export HISTFILE="$XDG_CACHE_HOME"/.zsh_history
+export SAVEHIST=100000
+export HISTSIZE=500000
+export HISTORY_SUBSTRING_SEARCH_HIGHLIGHT_FOUND=default
+export HISTORY_SUBSTRING_SEARCH_HIGHLIGHT_NOT_FOUND=default
+export HISTORY_SUBSTRING_SEARCH_ENSURE_UNIQUE=true
+export HISTORY_SUBSTRING_SEARCH_FUZZY=true
+#export GUIX_EXTRA_PROFILES=$HOME/.guix-extra-profiles
+export PATH=$HOME/dotfiles/home/scripts:$PATH
+
+
+bindkey '^R' history-incremental-search-backward
+bindkey "^[p" history-beginning-search-backward
+bindkey "^[n" history-beginning-search-forward
+
+autoload -U up-line-or-beginning-search
+autoload -U down-line-or-beginning-search
+zle -N up-line-or-beginning-search
+zle -N down-line-or-beginning-search
+bindkey "^[[A" up-line-or-beginning-search # Up
+bindkey "^[[B" down-line-or-beginning-search # Down
+
+alias grep="grep --color"="auto"
+alias ll="ls -l"
+alias guh="guix home reconfigure ~/dotfiles/home/environment.scm -L ~/dotfiles/home"
+alias guu="guix pull && guix upgrade"
+alias dsc="dbus-run-session flatpak run com.discordapp.Discord"
+alias vpu="~/dotfiles/home/scripts/vpnon.sh"
+alias vpd="~/dotfiles/home/scripts/vpnoff.sh"
+alias ls="ls -p --color"="auto"
+alias vps="curl https://am.i.mullvad.net/connected"

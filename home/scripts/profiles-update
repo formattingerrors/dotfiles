@@ -1,0 +1,3 @@
+for profile in "$GUIX_EXTRA_PROFILES"/*; do
+  guix package --profile="$profile" --manifest="$HOME/dotfiles/manifests/$(basename $profile).scm"
+done

@@ -1,0 +1,8 @@
+#+TITLE: README
+
+* Guix
+Most of my system is managed using guix home. I also use manifests to manage separate guix profiles.
+* Emacs
+I use Guix to manage most of my emacs packages (the exception right now is the nano-* packages). The configuration itself is split into the init.el and a secret configuration containing any personal information needed for mail and irc. One day, the init.el will be cleaned up and may be written in org mode.
+* Credits
+A few of the scripts in my folder for managing guix profiles were taken from [[https://sqrtminusone.xyz/][SqrtMinusOne]]. All of the guix home configuration is made possible through [[https://git.sr.ht/~abcdw/rde/][rde]]. I can't remember where half of my init.el comes from. The theme, modeline, and anything that looks good about my emacs configuration is taken from [[https://github.com/rougier][Nicolas Rougier]].

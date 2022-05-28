@@ -1,0 +1,2 @@
+#!/usr/bin/env bash
+guix package -m $HOME/dotfiles/manifests/Ø.scm

@@ -1,0 +1,30 @@
+#source /etc/profile
+JUPYTER_CONFIG_DIR="$XDG_CONFIG_HOME"/jupyter
+ICEAUTHORITY="$XDG_CACHE_HOME"/ICEauthority
+WINEPREFIX="$XDG_DATA_HOME"/wine
+XINITRC="$XDG_CONFIG_HOME"/X11/xinitrc
+HOME_ENVIRONMENT=$HOME/.guix-home
+. $HOME_ENVIRONMENT/setup-environment
+$HOME_ENVIRONMENT/on-first-login
+GUIX_EXTRA_PROFILES=$HOME/.guix-extra-profiles
+mkdir -p "$GUIX_EXTRA_PROFILES"
+for i in $GUIX_EXTRA_PROFILES/*; do
+  profile=$i
+  if [ -f "$profile"/etc/profile ]; then
+    GUIX_PROFILE="$profile"
+    . "$GUIX_PROFILE"/etc/profile
+  fi
+    if [ -d "$profile"/etc/xdg ]; then
+      export XDG_CONFIG_DIRS="$profile"/etc/xdg:$XDG_CONFIG_DIRS
+    fi
+    if [ -d "$profile"/share ]; then
+      export XDG_DATA_DIRS="$profile"/share:$XDG_DATA_DIRS
+    fi
+    if [ -d "$profile"/share/man ]; then
+      export MANPATH="$profile"/share/man:$MANPATH
+    fi
+    if [ -d "$profile"/share/info ]; then
+      export INFOPATH="$profile"/share/info:$INFOPATH
+    fi
+  unset profile
+done
