@@ -68,7 +68,6 @@
 (global-undo-tree-mode)
 (setq evil-undo-system 'undo-tree)
 (evil-collection-init)
-;;(load-file "~/nano-minibuffer/nano-minibuffer.el")
 
 (defvar bootstrap-version)
 (let ((bootstrap-file
@@ -85,52 +84,16 @@
       (eval-print-last-sexp)))
   (load bootstrap-file nil 'nomessage))
 
-;; NANO splash
-(straight-use-package
- '(nano-splash :type git :host github :repo "rougier/nano-splash"))
-
-;;NANO theme
-(straight-use-package
- '(nano-theme :type git :host github :repo "rougier/nano-theme")
- )
-
-;;NANO modeline
-(straight-use-package
- '(nano-modeline :type git :host github :repo "rougier/nano-modeline"))
-
-;; NANO agenda
-(straight-use-package
- '(nano-agenda :type git :host github :repo "rougier/nano-agenda"))
-
-;; SVG tags, progress bars & icons
-(use-package svg-lib
-  :straight (:type git :host github :repo "rougier/svg-lib")
-  :config
-  (setq svg-lib-style-default (svg-lib-style-compute-default)))
-
-
 (with-eval-after-load 'svg-lib
   (setq svg-lib-style-default (svg-lib-style-compute-default)))
+
 ;; Replace keywords with SVG tags
 (require 'svg-lib)
-(use-package svg-tag-mode
-  :straight (:type git :host github :repo "rougier/svg-tag-mode")
-  :config
-  (setq svg-lib-style-default (svg-lib-style-compute-default)))
-
 
 (with-eval-after-load 'svg-tag-mode
   (setq svg-lib-style-default (svg-lib-style-compute-default)))
 (require 'svg-tag-mode)
 (setq svg-lib-style-default (svg-lib-style-compute-default))
-;; Dashboard for mu4e
-(straight-use-package
- '(mu4e-dashboard :type git :host github :repo "rougier/mu4e-dashboard"))
-
-;; Folding mode for mu4e
-(straight-use-package
- '(mu4e-folding :type git :host github :repo "rougier/mu4e-folding"))
-
 
 (setq-default
  inhibit-startup-screen t
@@ -1225,7 +1188,6 @@ concatenated."
 ;;(defun reload-init-file ()
 ;;        "Reload init.el."
 ;;(interactive)
-;;(load-file (expand-file-name (concat user-emacs-directory "init.el"))))
 ;;(require 'evil-org-agenda)
 ;;(evil-org-agenda-set-keys)
 (defun org-mode-export-hook()

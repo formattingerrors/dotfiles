@@ -15,6 +15,13 @@
   (map (compose transform specification->package)
        '(
          "emacs-org-roam-ui"
+         "emacs-svg-lib"
+         "emacs-svg-tag-mode"
+         "emacs-nano-theme"
+         "emacs-nano-modeline"
+         "emacs-mu4e-folding"
+         "emacs-mu4e-dashboard"
+         "emacs-nano-agenda"
          "emacs-nov-el"
          "emacs-elfeed"
          "emacs-guix"
