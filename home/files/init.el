@@ -6,6 +6,7 @@
 (setq straight-check-for-modifications nil)
 (setq url-http-attempt-keepalives nil)
 (setq guix-default-user-profile "~/.guix-extra-profiles/desktop")
+(setq undo-tree-history-directory-alist '(("." . "~/.config/emacs/undo")))
 
 (with-eval-after-load 'org-roam
   (cl-defmethod org-roam-node-type ((node org-roam-node))
@@ -41,8 +42,8 @@
    "~/Downloads/363796-units-h156-and-h556\
 -data-formulae-and-relationships-booklet.pdf"))
 
-;; weirdly broken right now
-;; has to be run twice to work
+;; Opens arxiv pdfs from elfeed
+;; Downloads them to /tmp if they don't exist on disk
 (defun open-arxiv ()
   (interactive)
   (setq url (thing-at-point-url-at-point))
@@ -54,11 +55,9 @@
                        "https://" (replace-regexp-in-string "/abs/"
                                                             "/pdf/"
                                                             url)) ".pdf"))
-    (async-start-process "pdf-dl" "curl" (lambda (x) (interactive)
-                                           (find-file pdf-name)) pdf
-                                           "--output" pdf-name))
-  )
-;;(find-file pdf))
+    (url-copy-file pdf pdf-name)
+    (find-file pdf-name)))
+
 
 (setq evil-overriding-maps nil)
 (setq evil-intercept-maps nil)
@@ -1190,9 +1189,13 @@ concatenated."
 ;;(interactive)
 ;;(require 'evil-org-agenda)
 ;;(evil-org-agenda-set-keys)
+
+;; Do not export to pdf when in an org-capture buffer
+;; or when in an org-roam file.
 (defun org-mode-export-hook()
   (interactive)
-  (if (eq major-mode 'org-mode) (org-latex-export-to-pdf t)))
+  (if (and (not (string-prefix-p "/home/main/org-roam" (buffer-file-name)))
+           (not (bound-and-true-p org-capture-mode)) (eq major-mode 'org-mode)) (org-latex-export-to-pdf t)))
 (add-hook 'after-save-hook 'org-mode-export-hook)
 (projectile-mode +1)
 (define-key projectile-mode-map (kbd "s-p") 'projectile-command-map)
@@ -1212,17 +1215,10 @@ concatenated."
 (add-hook 'TeX-after-compilation-finished-functions
           #'TeX-revert-document-buffer)
 
-
-;;(progn
-;;  (defun use-variable-width-font ()
-;;    "Set current buffer to use variable-width font."
-;;    (variable-pitch-mode 1)
-;;   (text-scale-increase 1 )
-;;    ))
-;;(add-hook 'org-mode-hook 'use-variable-width-font)
-;;(set-face-attribute 'org-table nil :inherit 'fixed-pitch)
-;;(set-face-attribute 'org-code nil :inherit 'fixed-pitch)
-;;(set-face-attribute 'org-block nil :inherit 'fixed-pitch)
+;; TODO: make org-table render nicely with proportional fonts.
+(set-face-attribute 'org-table nil :inherit 'default)
+(set-face-attribute 'org-code nil :inherit 'default)
+(set-face-attribute 'org-block nil :inherit 'default)
 ;;        (font-lock-add-keywords 'org-mode
 ;;                               '(("^ *\\([-]\\) "
 ;;                                 (0 (prog1 ()
