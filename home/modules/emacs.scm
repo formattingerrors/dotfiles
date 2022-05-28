@@ -131,7 +131,7 @@
              (init-el `(,(slurp-file-gexp (local-file "../secrets/emacs-secrets.el")) ,(slurp-file-gexp (local-file "../files/init.el"))))
              (early-init-el `(,(slurp-file-gexp (local-file "../files/early-init.el"))))
              (rebuild-elisp-packages? #f)
-             ;; Emacs is unable to access open any packages requiring a display
+             ;; Emacs is unable to open any packages requiring a display
              ;; when ran as a daemon through guix
              (server-mode? #f)
              (elisp-packages emacs-packages-2)
