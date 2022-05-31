@@ -1176,27 +1176,18 @@ concatenated."
                  ("\\section{%s}" . "\\section*{%s}")
                  ("\\subsection{%s}" . "\\subsection*{%s}")
                  ("\\subsubsection{%s}" . "\\subsubsection*{%s}"))))
-;;(defun er-reinstall-package (pkg)
-;;(interactive (list (intern (completing-read "Reinstall package: "
-;;(mapcar #'car package-alist)
-;;))))
-;;(unload-feature pkg)
-;;(package-reinstall pkg)
-;;(require pkg))
-
-;;(defun reload-init-file ()
-;;        "Reload init.el."
-;;(interactive)
-;;(require 'evil-org-agenda)
-;;(evil-org-agenda-set-keys)
-
 ;; Do not export to pdf when in an org-capture buffer
 ;; or when in an org-roam file.
-(defun org-mode-export-hook()
-  (interactive)
-  (if (and (not (string-prefix-p "/home/main/org-roam" (buffer-file-name)))
-           (not (bound-and-true-p org-capture-mode)) (eq major-mode 'org-mode)) (org-latex-export-to-pdf t)))
-(add-hook 'after-save-hook 'org-mode-export-hook)
+                                        ;:(defun org-mode-export-hook()
+;;(interactive)
+;; (if (and (not (string-prefix-p "/home/main/org-roam" (buffer-file-name)))
+;;          (not (bound-and-true-p org-capture-mode)) (eq major-mode 'org-mode)) (org-latex-export-to-pdf t))
+                                        ;')
+
+;; Remove this hook
+;; Moving to org-roam for notes has made autoexporting to a pdf mostly useless
+;; and more of an annoyance when I have to keep deleting .tex and .pdf files
+;; (add-hook 'after-save-hook 'org-mode-export-hook)
 (projectile-mode +1)
 (define-key projectile-mode-map (kbd "s-p") 'projectile-command-map)
 (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
