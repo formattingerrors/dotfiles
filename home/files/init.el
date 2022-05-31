@@ -1404,13 +1404,13 @@ is true; otherwise returns the last value."
 (with-eval-after-load 'elfeed-search
   (setq-default elfeed-search-filter "-entertainment "))
 
-;;(defun browse-url-mpv (url &optional new-window)
-;;   (start-process "mpv" "*mpv*" "mpv" url))
+(defun browse-url-mpv (url &optional new-window)
+  (start-process "mpv" "*mpv*" "mpv" url))
 
-;;(setq browse-url-browser-function 'browse-url-default-browser)
-;;(setq browse-url-handlers '(("https://www.youtube.com/\.*" . browse-url-mpv)
-;;("https://odysee.\*" . browse-url-mpv)
-;;("." . eww-browse-url)))
+(setq browse-url-browser-function 'browse-url-default-browser)
+(setq browse-url-handlers '(("https://www.youtube.com/\.*" . browse-url-mpv)
+                            ("https://odysee.\*" . browse-url-mpv)
+                            ("." . eww-browse-url)))
 (setq inspirations '(
 
                      ";; The following text is either a product of the browser\
