@@ -1,11 +1,32 @@
 (define-module (modules wm)
   #:use-module (srfi srfi-1)
   #:use-module (gnu packages wm)
+  #:use-module (gnu packages)
   #:use-module (gnu services)
   #:use-module (guix utils)
+  #:use-module (guix packages)
   #:use-module (guix gexp)
   #:use-module (gnu home-services wm)
   )
+
+(define-public wm-packages
+  (map specification->package
+       `("kanshi"
+         "rofi-wayland"
+         "slurp"
+         "waybar"
+         "grim"
+         "xorg-server-xwayland"
+         "wl-clipboard"
+         "xkill"
+         "xset"
+         "xdot"
+         "qtwayland"
+         "brightnessctl"
+         "pamixer"
+         "xmodmap"
+         "setxkbmap")))
+
 (define ws-bindings
   (map (lambda (ws)
          `(,(string->symbol (format #f "$mod+~d" (modulo ws 10)))

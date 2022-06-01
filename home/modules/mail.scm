@@ -9,6 +9,13 @@
   #:use-module (guix gexp)
   )
 
+(define-public mail-packages
+  (map specification->package
+       '(
+         "mu"
+         "smtpmail"
+         "isync"
+         "offlineimap3")))
 (define-public
   mail-services
   (list
