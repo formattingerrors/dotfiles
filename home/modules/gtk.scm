@@ -16,7 +16,7 @@
 (define-public gtk-packages
   (map specification->package
        `("arc-theme"
-         "orchis-theme"
+         "nordic-theme"
          "moka-icon-theme")))
 
 (define* (serialize-css-config config #:optional (newline "\n"))
@@ -54,8 +54,7 @@
             ,(make-gtk3-ini
               '((settings
                  ((gtk-icon-theme-name . Moka)
-                  (gtk-theme-name . Orchis-dark-compact)
-                  (gtk-application-prefer-dark-theme . true)
+                  (gtk-theme-name . Nordic)
                   (gtk-xft-antialias . 1)
                   (gtk-xft-hinting . 1)
                   (gtk-xft-hintstyle . hintfull)))))))

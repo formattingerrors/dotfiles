@@ -5,6 +5,7 @@
   #:use-module (gnu packages)
   #:use-module (guix packages)
   #:use-module (gnu packages emacs)
+  #:use-module (guixrus packages emacs)
   #:use-module (srfi srfi-1)
   #:use-module (srfi srfi-26)
 
@@ -17,17 +18,17 @@
   #:use-module (gnu home-services-utils)
   )
 
-(define transform
-  (options->transformation
-   '(
-     (without-tests . "emacs-deferred")
-     (with-branch . "emacs-list-utils=master")
-     )))
+;;(define transform
+;;(options->transformation
+;;'(
+;;(without-tests . "emacs-deferred")
+;;(with-branch . "emacs-list-utils=master")
+;;)))
 
 
 ;; TODO: source this from emacs.scm manifest
 (define emacs-packages-2
-  (map (compose transform specification->package)
+  (map specification->package
        '(
          "emacs-org-roam-ui"
          "emacs-svg-lib"
@@ -91,7 +92,7 @@
          "emacs-doom-themes"
          "emacs-edit-indirect"
          ;;"emacs-elisp-format"
-         ;;"emacs-emms"
+         "emacs-emms"
          ;;"emacs-erc-image"
          ;;"emacs-evil-org"
          "emacs-org-superstar"
@@ -131,15 +132,15 @@
          )))
 
 (define-public emacs-services
-  (list
-   (service home-emacs-service-type
-            (home-emacs-configuration
-             (package emacs-next-pgtk-latest)
-             (init-el `(,(slurp-file-gexp (local-file "../secrets/emacs-secrets.el")) ,(slurp-file-gexp (local-file "../files/init.el"))))
-             (early-init-el `(,(slurp-file-gexp (local-file "../files/early-init.el"))))
-             (rebuild-elisp-packages? #f)
-             ;; Emacs is unable to open any packages requiring a display
-             ;; when ran as a daemon through guix
-             (server-mode? #f)
-             (elisp-packages emacs-packages-2)
-             ))))
+(list
+ (service home-emacs-service-type
+          (home-emacs-configuration
+           (package emacs-next-pgtk-latest)
+           (init-el `(,(slurp-file-gexp (local-file "../secrets/emacs-secrets.el")) ,(slurp-file-gexp (local-file "../files/init.el"))))
+           (early-init-el `(,(slurp-file-gexp (local-file "../files/early-init.el"))))
+           (rebuild-elisp-packages? #f)
+           ;; Emacs is unable to open any packages requiring a display
+           ;; when ran as a daemon through guix
+           (server-mode? #t)
+           (elisp-packages emacs-packages-2)
+           ))))

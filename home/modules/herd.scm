@@ -10,4 +10,4 @@
   (list
    (service home-shepherd-service-type
 	    (home-shepherd-configuration
-             (auto-start? #t)))))
+             (auto-start? #f)))))
