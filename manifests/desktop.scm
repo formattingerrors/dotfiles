@@ -4,6 +4,8 @@
 (list
         (specification->package "xdg-utils")
         (specification->package "dbus-glib")
+	;; For gsettings
+        (specification->package "glib:bin")
         (specification->package "dbus")
         (specification->package "imagemagick")
         (specification->package "pavucontrol")

@@ -3,6 +3,7 @@
 (define-public python-packages
 (list
         (specification->package "python")
+        (specification->package "python-py-cord")
         (specification->package "python-xlib")
 ))
 
